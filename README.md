@@ -5,7 +5,7 @@ A simple rule-based sprite atlas generator. The generator create atlased by matc
 Table of Contents
 
 - [Install Package](#install-package)
-  - [Install via OpenUPM](#Install-via-package-manager)
+  - [Install via Package Manager](#Install-via-package-manager)
   - [Install via Git URL](#install-via-git-url)
 - [How to Use](#how-to-use)
 
