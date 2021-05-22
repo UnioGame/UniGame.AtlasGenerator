@@ -1,0 +1,23 @@
+{
+  "name": "com.unigame.atlasgenerator",
+  "author": "UniGameTeam",
+  "displayName": "rule based sprite atlas generator",
+  "description": "",
+  "unity": "2019.2",
+  "version": "2021.0.0",
+  "keywords": [
+    "editor",
+    "sprite",
+    "atlas",
+    "generator",
+    "utils"
+  ],
+  "homepage": "https://github.com/UniGameTeam/UniGame.AtlasGenerator#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UniGameTeam/UniGame.AtlasGenerator.git"
+  },
+  "dependencies": {
+    "com.unigame.coremodules" : "2021.2.3"
+  }
+}
