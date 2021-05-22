@@ -55,11 +55,11 @@ Open *Packages/manifest.json* with your favorite text editor. Add the following 
 
 ### Default Sprite Atlas Settings
 
-![](https://github.com/UniGameTeam/UniGame.AtlasGenerator/GitAssets/default_settings_1.png)
+![](https://github.com/UniGameTeam/UniGame.AtlasGenerator/blob/master/GitAssets/default_settings_1.png)
 
 ### Atlas Generator Rules
 
-![](https://github.com/UniGameTeam/UniGame.AtlasGenerator/GitAssets/settings_1.png)
+![](https://github.com/UniGameTeam/UniGame.AtlasGenerator/blob/master/GitAssets/settings_1.png)
 
 - Sprites Root
   Root folder for scaning all defined rules
