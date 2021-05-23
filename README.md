@@ -44,7 +44,7 @@ Open *Packages/manifest.json* with your favorite text editor. Add the following 
 ```json
     {
         "dependencies": {
-            "com.littlebigfun.addressable-importer": "https://github.com/UniGameTeam/UniGame.AtlasGenerator.git"
+            "com.unigame.atlasgenerator": "https://github.com/UniGameTeam/UniGame.AtlasGenerator.git"
         }
     }
     
