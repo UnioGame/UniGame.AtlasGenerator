@@ -3,20 +3,29 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Sirenix.OdinInspector;
 using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
 using UnityEngine;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
 #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
 #endif
 
     [Serializable]
     public class AtlasGeneratorRule : ISearchFilterable
     {
         private const string spriteAtlasExt = ".spriteatlas";
+        
+        [Tooltip("If True, When atlas name will created by rule path at project")]
+        public bool uniqueAtlasName = false;
 
+#if ODIN_INSPECTOR
+        [ShowIf(nameof(uniqueAtlasName))]
+#endif
+        [Tooltip("If <= 0, When lenght unlimited")]
+        public int uniqueAtlasNameLength = 40;
+        
         [Tooltip("The assets in this path will be processed.")]
         public string path = string.Empty;
 
@@ -48,7 +57,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 #if ODIN_INSPECTOR
         [ShowIf("applyCustomSettings")]
 #endif
-        public AtlasSettingsApplicationMode atlasSettingseApplicationMode =
+        public AtlasSettingsApplicationMode atlasSettingsApplicationMode =
             AtlasSettingsApplicationMode.ApplyOnAtlasCreationOnly;
 
         [Tooltip("Settings that will be applied to the atlas. Leave none to use the default settings.")]

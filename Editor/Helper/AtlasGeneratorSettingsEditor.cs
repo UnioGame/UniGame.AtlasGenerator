@@ -6,7 +6,6 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor.Helper
@@ -14,6 +13,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor.Helper
     namespace UnityAtlasGenerator.Helper.Internal
     {
 #if ODIN_INSPECTOR
+        using Sirenix.OdinInspector.Editor;
 #endif
         
 

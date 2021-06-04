@@ -69,7 +69,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
                         packedSprites.Add(spritePath);
 
                         var appliedSettings = rule.applyCustomSettings ? rule.atlasSettings : defaultSettings;
-                        if ((rule.applyCustomSettings &&          rule.atlasSettingseApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings) ||
+                        if ((rule.applyCustomSettings &&          rule.atlasSettingsApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings) ||
                            (!rule.applyCustomSettings && atlasSettings.atlasSettingseApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings))
                         {
                             if (!atlas.CheckSettings(appliedSettings))

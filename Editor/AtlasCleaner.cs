@@ -33,7 +33,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             {
                 if (AssetDatabase.GetMainAssetTypeAtPath(asset) == typeof(Texture2D) && Path.GetExtension(asset.ToLower()) != psbExtension)
                 {
-                    AtlasGeneratorPostprocessor.RemoveSpriteFromAtlas(asset);
+                    AtlasGeneratorCommands.RemoveSpriteFromAtlas(asset);
                 }
             }
         }

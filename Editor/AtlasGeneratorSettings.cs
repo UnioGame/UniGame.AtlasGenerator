@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UniModules.UniGame.AtlasGenerator.Editor.Attributes.UnityAtlasGenerator.Helper;
 using UniModules.UniGame.Core.Editor.EditorProcessors;
 using UnityEditor;
@@ -8,6 +7,7 @@ using UnityEngine;
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
 #if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
 #endif
 
     [GeneratedAssetInfo("AtlasGenerator/Editor")]
@@ -16,7 +16,8 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
         [Tooltip("Creates an atlas if the specified atlas doesn't exist.")]
         public bool allowAtlasCreation = false;
 
-        [Tooltip("Root directory to look for sprites. Assets/ is used if left empty.")] [SerializeField]
+        [Tooltip("Root directory to look for sprites. Assets/ is used if left empty.")] 
+        [SerializeField]
         public string spritesRoot = string.Empty;
 
         [Tooltip("Rules for managing imported assets.")]
@@ -24,7 +25,6 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 #if ODIN_INSPECTOR
         [ListDrawerSettings(HideAddButton = false, Expanded = false, DraggableItems = true, HideRemoveButton = false)]
 #endif
-        
 #if ODIN_INSPECTOR_3
         [Searchable(FilterOptions = SearchFilterOptions.ISearchFilterableInterface)]
 #endif

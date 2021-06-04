@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using UniModules.UniGame.Core.EditorTools.Editor.Tools;
 using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
 using UnityEditor;
 using UnityEditor.U2D;
@@ -15,6 +16,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             var logMessage = $"[{nameof(AtlasGenerator)}] {message}";
             Debug.unityLogger.Log(logType, logMessage);
         }
+        
         public static SpriteAtlas CreateOrUpdateAtlas(
             AtlasGeneratorSettings generatorSettings,
             AtlasGeneratorAtlasSettings atlasSettings,
@@ -25,7 +27,21 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             SpriteAtlas atlas;
             var pathToAtlas = rule.ParseAtlasReplacement(assetPath);
             pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
-            bool newAtlas = false;
+
+            var nameLenght = rule.uniqueAtlasNameLength <= 0 
+                ? pathToAtlas.Length 
+                : rule.uniqueAtlasNameLength;
+            nameLenght = Mathf.Min(nameLenght, pathToAtlas.Length);
+            
+            pathToAtlas = rule.uniqueAtlasName == false 
+                ? pathToAtlas
+                : Path.GetDirectoryName(pathToAtlas).CombinePath(pathToAtlas.FixUnityPath()
+                    .Replace(EditorFileUtils.MoveDirectorySeparator, '-')
+                    .Replace('\\', '-')
+                    .Substring(0,nameLenght));
+            
+            var newAtlas = false;
+            
             if (string.IsNullOrWhiteSpace(pathToAtlas))
             {
                 Log(LogType.Warning, $"Asset {assetPath} wasn't packed because its rule has no atlas path");
@@ -41,14 +57,13 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             }
 
             // Set atlas settings from template if necessary
-            if (!newAtlas &&
-                ((rule.applyCustomSettings && rule.atlasSettingseApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings) ||
-                atlasSettings.atlasSettingseApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings))
+            if (!newAtlas && ((rule.applyCustomSettings && rule.atlasSettingsApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings) ||
+                              atlasSettings.atlasSettingseApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings))
             {
                 atlas.ApplySettings(appliedSettings);
             }
 
-            var packedAsset = new Texture2D[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
+            var packedAsset = new[] { AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath) };
             var packedAssets = atlas.GetPackables();
             if (!packedAssets.Contains(packedAsset[0]))
             {
@@ -61,7 +76,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
         public static SpriteAtlas CreateAtlas(string pathToAtlas, SpriteAtlasSettings atlasSettings)
         {
             var atlasNames = AtlasGeneratorSettings.Asset.generatedAtlases
-                .Select(path => Path.GetFileName(path))
+                .Select(Path.GetFileName)
                 .ToList();
             var createdAtlasName = Path.GetFileName(pathToAtlas);
             if (atlasNames.Contains(createdAtlasName))
@@ -96,21 +111,17 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
         public static bool DeleteEmptyAtlas(SpriteAtlas atlas)
         {
             var packables = atlas.GetPackables();
-            if (packables.Length == 0)
-            {
-                var path = AssetDatabase.GetAssetPath(atlas);
-                AtlasGeneratorSettings.Asset.generatedAtlases.RemoveAll(atlasPath => atlasPath == path);
-                EditorUtility.SetDirty(AtlasGeneratorSettings.Asset);
-                AssetDatabase.DeleteAsset(path);
-                return true;
-            }
-
-            return false;
+            if (packables.Length != 0) return false;
+            var path = AssetDatabase.GetAssetPath(atlas);
+            AtlasGeneratorSettings.Asset.generatedAtlases.RemoveAll(atlasPath => atlasPath == path);
+            EditorUtility.SetDirty(AtlasGeneratorSettings.Asset);
+            AssetDatabase.DeleteAsset(path);
+            return true;
         }
 
         public static bool TryGetAtlas(string pathToAtlas, out SpriteAtlas atlas)
         {
-            return ((atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas)) == null) ? false : true;
+            return ((atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas)) != null);
         }
     }
 }
