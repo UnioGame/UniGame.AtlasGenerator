@@ -9,8 +9,6 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 {
     public class AtlasCleaner : UnityEditor.AssetModificationProcessor
     {
-        const string psbExtension = ".psb";
-
         public static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
         {
             UniEditorProfiler.LogTime(nameof(AtlasCleaner), () => RemoveFromAtlases(assetPath));
@@ -31,7 +29,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             }
             foreach (var asset in assetPaths)
             {
-                if (AssetDatabase.GetMainAssetTypeAtPath(asset) == typeof(Texture2D) && Path.GetExtension(asset.ToLower()) != psbExtension)
+                if (AssetDatabase.GetMainAssetTypeAtPath(asset) == typeof(Texture2D) && Path.GetExtension(asset.ToLower()) != AtlasGeneratorCommands.PsbExtension)
                 {
                     AtlasGeneratorCommands.RemoveSpriteFromAtlas(asset);
                 }
