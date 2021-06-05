@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
+    using System;
+    using System.Collections;
+    using UniCore.EditorTools.Editor.Utility;
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif
@@ -36,6 +39,20 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
         public void Save()
         {
             AssetDatabase.SaveAssets();
+        }
+
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.Button]
+#endif
+        public void Validate()
+        {
+            OnValidate();
+        }
+        
+        private void OnValidate()
+        {
+            generatedAtlases.Sort(Comparer<string>.Default);
+            this.MarkDirty();
         }
     }
 }

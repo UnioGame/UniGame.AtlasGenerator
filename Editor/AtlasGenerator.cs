@@ -38,7 +38,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
                 : Path.GetDirectoryName(pathToAtlas).CombinePath(pathToAtlas.FixUnityPath()
                     .Replace(EditorFileUtils.MoveDirectorySeparator, '-')
                     .Replace('\\', '-')
-                    .Substring(0,nameLenght));
+                    .Substring(Mathf.Max(0,pathToAtlas.Length-nameLenght),nameLenght));
             
             var newAtlas = false;
             
