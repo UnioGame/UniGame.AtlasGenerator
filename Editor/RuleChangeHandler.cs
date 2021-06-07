@@ -31,17 +31,18 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             var packedSprites = new HashSet<string>();
             var existingAtlases = (settings.generatedAtlases)
                 .ToList()
-                .Select(path  => LoadAtlas(path, settings))
+                .Select(path => LoadAtlas(path, settings))
                 .Where(atlas => atlas != null)
                 .ToList();
             var spritesRoot = string.IsNullOrEmpty(settings.spritesRoot.Trim()) ? "Assets" : settings.spritesRoot.TrimEndPath();
-            var existingSprites = AssetEditorTools.GetAssetsPaths<Texture2D>(new string[] { spritesRoot });
+            var existingSprites = AssetEditorTools.GetAssetsPaths<Texture2D>(new string[] { spritesRoot })
+                .Where(p=>settings.rules.Any(rule=>rule.Match(p)));
 
             foreach (var atlas in existingAtlases)
             {
                 var packables = atlas.GetPackables();
                 var spritesToRemove = new List<string>();
-                var currentPathToAtlas = AssetDatabase.GetAssetPath(atlas);
+                var currentPathToAtlas = AssetDatabase.GetAssetPath(atlas).FixUnityPath();
                 foreach (var packable in packables)
                 {
                     if (!(packable is Texture2D))
@@ -69,7 +70,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
                         packedSprites.Add(spritePath);
 
                         var appliedSettings = rule.applyCustomSettings ? rule.atlasSettings : defaultSettings;
-                        if ((rule.applyCustomSettings &&          rule.atlasSettingsApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings) ||
+                        if ((rule.applyCustomSettings && rule.atlasSettingsApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings) ||
                            (!rule.applyCustomSettings && atlasSettings.atlasSettingseApplicationMode == AtlasSettingsApplicationMode.AlwaysOverwriteAtlasSettings))
                         {
                             if (!atlas.CheckSettings(appliedSettings))
@@ -92,7 +93,8 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             }
 
             var spritesToPack = existingSprites.Except(packedSprites).ToArray();
-            AtlasGeneratorPostprocessor.PackIntoAtlases(spritesToPack, new string[] { }, new string[] { });
+            if (spritesToPack.Length > 0)
+                AtlasGeneratorPostprocessor.PackIntoAtlases(spritesToPack, new string[] { }, new string[] { });
 
             CheckForCollisions(settings.generatedAtlases);
         }

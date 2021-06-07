@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
+    using Core.EditorTools.Editor.Tools;
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif
@@ -98,8 +99,15 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 
         public string GetFullPathToAtlas(string path)
         {
-            return string.IsNullOrWhiteSpace(path) 
+            var fullPath =  string.IsNullOrWhiteSpace(path) 
                 ? path : Path.ChangeExtension(path, spriteAtlasExt);
+            var parts     = fullPath.SplitPath();
+            var trimIndex = trimLeadingFragments - 1;
+            trimIndex = trimIndex < parts.Length ? trimIndex : parts.Length - 1;
+            var name = string.Join("-", parts, trimIndex, parts.Length - trimIndex);
+            var result =  Path.GetDirectoryName(fullPath) + Path.DirectorySeparatorChar + name;
+            return result;
+
         }
 
         public bool IsMatch(string searchString) => string.IsNullOrEmpty(searchString) || Filters.Any(x => x(searchString));

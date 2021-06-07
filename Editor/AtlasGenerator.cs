@@ -28,12 +28,6 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             var pathToAtlas = rule.ParseAtlasReplacement(assetPath);
             pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
             
-            var parts = pathToAtlas.SplitPath();
-            var trimIndex = rule.trimLeadingFragments - 1;
-            trimIndex = trimIndex < parts.Length ? trimIndex : parts.Length - 1;
-            var name = string.Join("-",parts, trimIndex, parts.Length - trimIndex);
-            pathToAtlas = Path.GetDirectoryName(pathToAtlas) + Path.DirectorySeparatorChar + name;
-            
             var newAtlas = false;
             
             if (string.IsNullOrWhiteSpace(pathToAtlas))
