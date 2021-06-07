@@ -27,18 +27,12 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             SpriteAtlas atlas;
             var pathToAtlas = rule.ParseAtlasReplacement(assetPath);
             pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
-
-            var nameLenght = rule.uniqueAtlasNameLength <= 0 
-                ? pathToAtlas.Length 
-                : rule.uniqueAtlasNameLength;
-            nameLenght = Mathf.Min(nameLenght, pathToAtlas.Length);
             
-            pathToAtlas = rule.uniqueAtlasName == false 
-                ? pathToAtlas
-                : Path.GetDirectoryName(pathToAtlas).CombinePath(pathToAtlas.FixUnityPath()
-                    .Replace(EditorFileUtils.MoveDirectorySeparator, '-')
-                    .Replace('\\', '-')
-                    .Substring(Mathf.Max(0,pathToAtlas.Length-nameLenght),nameLenght));
+            var parts = pathToAtlas.SplitPath();
+            var trimIndex = rule.trimLeadingFragments - 1;
+            trimIndex = trimIndex < parts.Length ? trimIndex : parts.Length - 1;
+            var name = string.Join("-",parts, trimIndex, parts.Length - trimIndex);
+            pathToAtlas = Path.GetDirectoryName(pathToAtlas) + Path.DirectorySeparatorChar + name;
             
             var newAtlas = false;
             

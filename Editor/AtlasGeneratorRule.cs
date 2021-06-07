@@ -23,8 +23,8 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 #if ODIN_INSPECTOR
         [ShowIf(nameof(uniqueAtlasName))]
 #endif
-        [Tooltip("If <= 0, When lenght unlimited")]
-        public int uniqueAtlasNameLength = 40;
+        [Tooltip("If <= 0, When fullpath")]
+        public int trimLeadingFragments = 3;
         
         [Tooltip("The assets in this path will be processed.")]
         public string path = string.Empty;
