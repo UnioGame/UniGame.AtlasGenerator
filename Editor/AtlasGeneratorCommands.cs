@@ -76,8 +76,12 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 
             foreach (var r in importSettings.rules)
             {
+                if(r.enabled == false)
+                    continue;
+                
                 if (!r.Match(assetPath))
                     continue;
+                
                 rule = r;
                 return true;
             }

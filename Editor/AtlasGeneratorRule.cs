@@ -17,6 +17,8 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
     public class AtlasGeneratorRule : ISearchFilterable
     {
         private const string spriteAtlasExt = ".spriteatlas";
+
+        public bool enabled = true;
         
         [Tooltip("If True, When atlas name will created by rule path at project")]
         public bool uniqueAtlasName = false;
@@ -67,6 +69,8 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 
         public bool Match(string assetPath)
         {
+            if (!enabled) return false;
+            
             path = path.Trim();
             if (string.IsNullOrEmpty(path))
                 return false;
