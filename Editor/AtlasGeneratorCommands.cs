@@ -14,39 +14,43 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             Debug.unityLogger.Log(logType, logMessage);
         }
  
-        public static bool ProcessAsset(string pathToAsset, string oldPathToAsset, AtlasGeneratorSettings generatorSettings, AtlasGeneratorAtlasSettings atlasSettings)
+        public static bool ProcessAsset(string pathToAsset, string oldPathToAsset)
         {
             if (AssetDatabase.GetMainAssetTypeAtPath(pathToAsset) == typeof(Texture2D) && Path.GetExtension(pathToAsset.ToLower()) != PsbExtension)
             {
-                return ApplyGenerationRule(pathToAsset, oldPathToAsset, generatorSettings, atlasSettings);
+                return ApplyGenerationRule(pathToAsset, oldPathToAsset);
             }
             return false;
         }
         
-        public static bool LoadSettings(out AtlasGeneratorSettings generatorSettings, out AtlasGeneratorAtlasSettings atlasSettings) {
+        public static bool LoadSettings(out AtlasGeneratorSettings generatorSettings, out AtlasGeneratorAtlasSettings atlasSettings) 
+        {
             generatorSettings = AtlasGeneratorSettings.Asset;
-            atlasSettings = null;
+            atlasSettings     = AtlasGeneratorAtlasSettings.Asset;
+            
             if (generatorSettings == null)
             {
                 Log(LogType.Error ,"Generator settings file not found");
                 return false;
             }
-            atlasSettings = AtlasGeneratorAtlasSettings.Asset;
+            
             if (atlasSettings == null)
             {
                 Log(LogType.Error, "Atlas settings file not found.");
                 return false;
             }
+            
             return true;
         }
         
         public static bool ApplyGenerationRule(
             string assetPath,
-            string movedFromAssetPath,
-            AtlasGeneratorSettings generatorSettings,
-            AtlasGeneratorAtlasSettings atlasSettings)
+            string movedFromAssetPath)
         {
             var dirty = false;
+            var generatorSettings = AtlasGeneratorSettings.Asset;
+            var atlasSettings     = AtlasGeneratorAtlasSettings.Asset;
+            
             if (!string.IsNullOrEmpty(movedFromAssetPath) && TryGetMatchedRule(movedFromAssetPath, generatorSettings, out var oldMatchedRule))
             {
                 dirty |= AtlasGenerator.RemoveFromAtlas(oldMatchedRule, movedFromAssetPath, assetPath);

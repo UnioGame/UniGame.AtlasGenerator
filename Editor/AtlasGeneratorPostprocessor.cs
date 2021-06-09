@@ -15,24 +15,19 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
        
         public static void PackIntoAtlases(string[] importedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         { 
-            if (!AtlasGeneratorCommands.LoadSettings(out var generatorSettings, out var atlasSettings))
-            {
-                return;
-            }
-
             var dirty = false;
 
             // Apply generation rules.
             foreach (var importedAsset in importedAssets)
             {
-                dirty |= AtlasGeneratorCommands.ProcessAsset(importedAsset, null, generatorSettings, atlasSettings);
+                dirty |= AtlasGeneratorCommands.ProcessAsset(importedAsset, null);
             }
 
             for (var i = 0; i < movedAssets.Length; i++)
             {
                 var movedAsset = movedAssets[i];
                 var movedFromAssetPath = movedFromAssetPaths[i];
-                dirty |= AtlasGeneratorCommands.ProcessAsset(movedAsset, movedFromAssetPath, generatorSettings, atlasSettings);
+                dirty |= AtlasGeneratorCommands.ProcessAsset(movedAsset, movedFromAssetPath);
             }
 
             if (dirty)
