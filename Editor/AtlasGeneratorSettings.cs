@@ -16,6 +16,10 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
     [GeneratedAssetInfo("AtlasGenerator/Editor")]
     public class AtlasGeneratorSettings : GeneratedAsset<AtlasGeneratorSettings>
     {
+        
+        [Tooltip("Is Empty generated atlas should be deleted")]
+        public bool deleteEmptyAtlas = false;
+
         [Tooltip("Creates an atlas if the specified atlas doesn't exist.")]
         public bool allowAtlasCreation = false;
 

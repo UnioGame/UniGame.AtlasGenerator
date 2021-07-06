@@ -99,7 +99,9 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
         public static bool DeleteEmptyAtlas(SpriteAtlas atlas)
         {
             var packables = atlas.GetPackables();
-            if (packables.Length != 0) return false;
+            if (packables.Length != 0 || AtlasGeneratorSettings.Asset.deleteEmptyAtlas == false) 
+                return false;
+            
             var path = AssetDatabase.GetAssetPath(atlas);
             AtlasGeneratorSettings.Asset.generatedAtlases.RemoveAll(atlasPath => atlasPath == path);
             EditorUtility.SetDirty(AtlasGeneratorSettings.Asset);
