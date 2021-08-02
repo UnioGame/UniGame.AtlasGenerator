@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using UniModules.Editor;
 using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
 using UnityEngine;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
-    using Core.EditorTools.Editor.Tools;
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif

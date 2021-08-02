@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using UniModules.UniGame.Core.EditorTools.Editor.Tools;
 using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
 using UnityEditor;
 using UnityEditor.U2D;

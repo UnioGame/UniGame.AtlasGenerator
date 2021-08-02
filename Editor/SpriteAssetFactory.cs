@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using UniModules.UniGame.AtlasGenerator.Editor.Abstract;
-using UniModules.UniGame.Core.EditorTools.Editor.AssetOperations;
-using UniModules.UniGame.Core.EditorTools.Editor.Tools;
-using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas.Abstract;
-using UnityEditor;
-using UnityEngine;
-
-namespace UniModules.UniGame.AtlasGenerator.Editor
+﻿namespace UniModules.UniGame.AtlasGenerator.Editor
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using Abstract;
+    using UniModules.Editor;
+    using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas.Abstract;
+    using UnityEditor;
+    using UnityEngine;
+    
     public class SpriteAssetFactory : ISpriteAssetFactory
     {
         private readonly ISpriteAtlasSettings _settings;

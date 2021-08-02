@@ -1,13 +1,14 @@
-﻿using UniModules.UniGame.AtlasGenerator.Editor.Abstract;
-using UniModules.UniGame.Core.EditorTools.Editor.Tools;
-using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
-using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas.Abstract;
-using UnityEditor;
-using UnityEditor.U2D;
-using UnityEngine.U2D;
+﻿using UniModules.Editor;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
+    using UniModules.UniGame.AtlasGenerator.Editor.Abstract;
+    using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
+    using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas.Abstract;
+    using UnityEditor;
+    using UnityEditor.U2D;
+    using UnityEngine.U2D;
+    
     public class SpriteAtlasFactory : ISpriteAtlasFactory
     {
         private readonly ISpriteAtlasSettings _atlasSettings;

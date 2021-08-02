@@ -8,7 +8,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 {
     using System;
     using System.Collections;
-    using UniCore.EditorTools.Editor.Utility;
+    using UniModules.Editor;
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif

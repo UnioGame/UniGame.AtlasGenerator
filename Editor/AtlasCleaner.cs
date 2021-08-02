@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using UniModules.UniGame.Core.Editor.Tools;
-using UniModules.UniGame.Core.EditorTools.Editor.Tools;
-using UnityEditor;
-using UnityEngine;
+﻿
+
+using UniModules.Editor;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using UniModules.UniGame.Core.Editor.Tools;
+    using UnityEditor;
+    using UnityEngine;
+    
     public class AtlasCleaner : UnityEditor.AssetModificationProcessor
     {
         public static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)

@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using UniModules.UniGame.Core.EditorTools.Editor.AssetOperations;
-using UniModules.UniGame.Core.EditorTools.Editor.Tools;
-using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
-using UnityEditor;
-using UnityEditor.U2D;
-using UnityEngine;
-using UnityEngine.U2D;
-
-namespace UniModules.UniGame.AtlasGenerator.Editor
+﻿namespace UniModules.UniGame.AtlasGenerator.Editor
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using UniModules.Editor;
+    using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
+    using UnityEditor;
+    using UnityEditor.U2D;
+    using UnityEngine;
+    using UnityEngine.U2D;
+    
     public class RuleChangeHandler
     {
         private const string spriteAtlasExtension = "*.spriteatlas";
