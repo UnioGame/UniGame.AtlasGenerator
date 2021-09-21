@@ -2,6 +2,7 @@
     "name": "unigame.atlasgenerator.editor",
     "rootNamespace": "",
     "references": [
+        "GUID:4ebedaede1566e6468edf5f6a097b593",
         "GUID:17d32079a21b96e4fa8dd7a61420cc04",
         "GUID:6cf219c1b8612014a948ff3571a01aac",
         "GUID:94b76ab488496fe4ba2e594d6c583770",
