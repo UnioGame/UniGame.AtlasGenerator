@@ -1,19 +1,23 @@
 ﻿using System.Linq;
 using UniModules.UniGame.GraphicsTools.Editor.SplitTexture.Abstract;
-using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas.Abstract;
 using UnityEngine;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
+    using GraphicsTools.Editor.SpriteAtlas;
+
     public class SplitTextureFactory : TextureFactory
     {
         private readonly ITextureSplitter _textureSplitter;
-        private readonly ISpriteAtlasSettings _atlasSettings;
+        private readonly int _maxSize;
         
-        public SplitTextureFactory(ITextureSplitter textureSplitter, ISpriteAtlasSettings atlasSettings)
+        public SplitTextureFactory(ITextureSplitter textureSplitter, SpriteAtlasSettings atlasSettings)
         {
             _textureSplitter = textureSplitter;
-            _atlasSettings = atlasSettings;
+
+            var platformSettings = atlasSettings.ImportSettings.GetTextureImporterPlatformSettings();
+            
+            _maxSize = platformSettings.maxTextureSize;
         }
 
         public override Texture2D[] Create(Sprite data)
@@ -22,8 +26,8 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
                 var texture = base.Create(data)[0];
                 
                 var rect = data.textureRect;
-                if (rect.width > _atlasSettings.MaxTextureSize || rect.height > _atlasSettings.MaxTextureSize) {
-                    return _textureSplitter.SplitTexture(texture, new Vector2Int(_atlasSettings.MaxTextureSize, _atlasSettings.MaxTextureSize)).ToArray();
+                if (rect.width > _maxSize || rect.height > _maxSize) {
+                    return _textureSplitter.SplitTexture(texture, new Vector2Int(_maxSize, _maxSize)).ToArray();
                 }
 
                 return new[] {texture};
