@@ -14,11 +14,9 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 
             foreach (Object obj in Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets))
             {
-                string path = AssetDatabase.GetAssetPath(obj);
+                var path = AssetDatabase.GetAssetPath(obj);
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
-                {
                     assetPathList.Add(path);
-                }
             }
 
             AtlasGeneratorPostprocessor.PackIntoAtlases(assetPathList.ToArray(), new string[] { }, new string[] { });

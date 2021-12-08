@@ -41,7 +41,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 
         private List<Func<string, bool>> _filters = new List<Func<string, bool>>();
         
-        public IReadOnlyList<Func<string, bool>> Filters => _filters = _filters ?? new List<Func<string, bool>>()
+        public IReadOnlyList<Func<string, bool>> Filters => _filters ??= new List<Func<string, bool>>()
         {
             ValidateAtlasName, ValidateRulePath
         };
@@ -70,18 +70,25 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
         public bool Match(string assetPath)
         {
             if (!enabled) return false;
+
+            if (string.IsNullOrEmpty(assetPath))
+                return true;
             
             path = path.Trim();
+
+            if (pathToAtlas.Contains(assetPath))
+                return true;
+
+            if (path.Contains(assetPath))
+                return true;
+                            
             if (string.IsNullOrEmpty(path))
                 return false;
-            
+                        
             if (matchType != AtlasGeneratorRuleMatchType.Wildcard)
                 return matchType == AtlasGeneratorRuleMatchType.Regex &&
                        Regex.IsMatch(assetPath, path);
-            
-            if (!path.Contains("*") && !path.Contains("?"))
-                return assetPath.StartsWith(path);
-                
+
             var regex = "^" + Regex.Escape(path).Replace(@"\*", ".*").Replace(@"\?", ".");
             return Regex.IsMatch(assetPath, regex);
 

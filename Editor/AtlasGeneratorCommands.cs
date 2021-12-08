@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using UniModules.UniGame.AddressableTools.Editor.AddressableSpriteAtlasManager;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,13 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
     {
         public const string PsbExtension = ".psb";
 
+        public static void Reimport()
+        {
+            var settings = AtlasGeneratorSettings.Asset;
+            RuleChangeHandler.ApplyRules(settings);
+            AddressableSpriteAtlasesEditorHandler.Reimport();
+        }
+        
         public static void Log(LogType logType, string message)
         {
             var logMessage = $"[{nameof(AtlasGeneratorPostprocessor)}] {message}";
@@ -43,9 +51,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             return true;
         }
         
-        public static bool ApplyGenerationRule(
-            string assetPath,
-            string movedFromAssetPath)
+        public static bool ApplyGenerationRule(string assetPath, string movedFromAssetPath)
         {
             var dirty = false;
             var generatorSettings = AtlasGeneratorSettings.Asset;
@@ -56,12 +62,13 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
                 dirty |= AtlasGenerator.RemoveFromAtlas(oldMatchedRule, movedFromAssetPath, assetPath);
             }
 
-            if (TryGetMatchedRule(assetPath, generatorSettings, out var matchedRule))
-            {
-                var atlas = AtlasGenerator.CreateOrUpdateAtlas(generatorSettings, atlasSettings, matchedRule, assetPath);
-                dirty = true;
-                Log(LogType.Log, $"Added sprite {assetPath} to atlas {atlas.name}");
-            }
+            if (!TryGetMatchedRule(assetPath, generatorSettings, out var matchedRule)) 
+                return dirty;
+            
+            var atlas = AtlasGenerator.CreateOrUpdateAtlas(generatorSettings, atlasSettings, matchedRule, assetPath);
+            dirty = true;
+            
+            Log(LogType.Log, $"Added sprite {assetPath} to atlas {atlas.name}");
 
             return dirty;
         }

@@ -6,8 +6,6 @@ using UnityEngine;
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
-    using System;
-    using System.Collections;
     using UniModules.Editor;
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
@@ -32,26 +30,25 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 #if ODIN_INSPECTOR
         [ListDrawerSettings(HideAddButton = false, Expanded = false, DraggableItems = true, HideRemoveButton = false)]
 #endif
+        
 #if ODIN_INSPECTOR_3
-        [Searchable(FilterOptions = SearchFilterOptions.ISearchFilterableInterface)]
+        [Searchable(FilterOptions = SearchFilterOptions.ISearchFilterableInterface,Recursive = true)]
 #endif
         public List<AtlasGeneratorRule> rules = new List<AtlasGeneratorRule>();
 
+        [Space]
+#if ODIN_INSPECTOR_3
+        [Searchable]
+#endif
         public List<string> generatedAtlases = new List<string>();
 
         [ButtonMethod]
-        public void Save()
-        {
-            AssetDatabase.SaveAssets();
-        }
+        public void Save() => AssetDatabase.SaveAssets();
 
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.Button]
+        [Button]
 #endif
-        public void Validate()
-        {
-            OnValidate();
-        }
+        public void Validate() => OnValidate();
         
         private void OnValidate()
         {
