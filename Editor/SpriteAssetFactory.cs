@@ -3,18 +3,18 @@
     using System.Collections.Generic;
     using System.IO;
     using Abstract;
+    using GraphicsTools.Editor.SpriteAtlas;
     using UniModules.Editor;
-    using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas.Abstract;
     using UnityEditor;
     using UnityEngine;
     
     public class SpriteAssetFactory : ISpriteAssetFactory
     {
-        private readonly ISpriteAtlasSettings _settings;
-        private TextureImporterSettings _importerSettings = null;
+        private readonly SpriteAtlasSettings _settings;
+        private TextureImporterSettings _importerSettings;
         private List<TextureImporterPlatformSettings> _importerPlatformSettings = new List<TextureImporterPlatformSettings>();
 
-        public SpriteAssetFactory(ISpriteAtlasSettings settings)
+        public SpriteAssetFactory(SpriteAtlasSettings settings)
         {
             _settings = settings;
         }
@@ -84,17 +84,10 @@
                     }
                     else
                     {
-                        textureImporter.mipmapEnabled = false;
-
-                        textureImporter.isReadable = true;
-                        textureImporter.textureType = TextureImporterType.Sprite;
-                        textureImporter.spritePivot = new Vector2(0.5f, 0.5f);
-
-                        textureImporter.filterMode = _settings.FilterMode;
-                        textureImporter.mipmapEnabled = _settings.GenerateMipMaps;
-                        textureImporter.crunchedCompression = _settings.UseCrunchCompression;
-                        textureImporter.compressionQuality = _settings.CompressionQuality;
-                        textureImporter.textureCompression = _settings.Compression;
+                        textureImporter.SetTextureSettings(_settings.ImportSettings.GetTextureImporterSettings());
+                        
+                        textureImporter.SetPlatformTextureSettings(_settings.ImportSettings.GetTextureImporterPlatformSettings(BuildTargetGroup.Standalone));
+                        textureImporter.SetPlatformTextureSettings(_settings.ImportSettings.GetTextureImporterPlatformSettings(BuildTargetGroup.Android));
                     }
 
                     textureImporter.SaveAndReimport();

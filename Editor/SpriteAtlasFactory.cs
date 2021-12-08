@@ -2,18 +2,17 @@
 
 namespace UniModules.UniGame.AtlasGenerator.Editor
 {
-    using UniModules.UniGame.AtlasGenerator.Editor.Abstract;
+    using Abstract;
     using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
-    using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas.Abstract;
     using UnityEditor;
     using UnityEditor.U2D;
     using UnityEngine.U2D;
     
     public class SpriteAtlasFactory : ISpriteAtlasFactory
     {
-        private readonly ISpriteAtlasSettings _atlasSettings;
+        private readonly SpriteAtlasSettings _atlasSettings;
         
-        public SpriteAtlasFactory(ISpriteAtlasSettings atlasSettings)
+        public SpriteAtlasFactory(SpriteAtlasSettings atlasSettings)
         {
             _atlasSettings = atlasSettings;
         }
@@ -25,28 +24,32 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             
             var atlas = new SpriteAtlas();
 
+            var textureSettings = _atlasSettings.ImportSettings.GetTextureImporterSettings();
+            
             var atlasTextureSettings = new SpriteAtlasTextureSettings();
-            atlasTextureSettings.generateMipMaps = _atlasSettings.GenerateMipMaps;
-            atlasTextureSettings.filterMode      = _atlasSettings.FilterMode;
-            atlasTextureSettings.readable        = _atlasSettings.ReadWriteEnabled;
-            atlasTextureSettings.sRGB            = _atlasSettings.SRgb;
+            atlasTextureSettings.generateMipMaps = textureSettings.mipmapEnabled;
+            atlasTextureSettings.filterMode      = textureSettings.filterMode;
+            atlasTextureSettings.readable        = textureSettings.readable;
+            atlasTextureSettings.sRGB            = textureSettings.sRGBTexture;
 
             var atlasPackingSettings = new SpriteAtlasPackingSettings();
             atlasPackingSettings.padding            = _atlasSettings.Padding;
             atlasPackingSettings.enableRotation     = _atlasSettings.AllowRotation;
             atlasPackingSettings.enableTightPacking = _atlasSettings.TightPacking;
 
-            var platformSettings = new TextureImporterPlatformSettings();
-            platformSettings.textureCompression  = _atlasSettings.Compression;
-            platformSettings.maxTextureSize      = _atlasSettings.MaxTextureSize;
-            platformSettings.format              = (TextureImporterFormat) _atlasSettings.Format;
-            platformSettings.crunchedCompression = _atlasSettings.UseCrunchCompression;
-            platformSettings.compressionQuality  = _atlasSettings.CompressionQuality;
-                
+            var platformSettingsDefault = _atlasSettings.ImportSettings.GetTextureImporterPlatformSettings();
+            var platformSettingsStandalone =
+                _atlasSettings.ImportSettings.GetTextureImporterPlatformSettings(BuildTargetGroup.Standalone);
+            var platformSettingsAndroid =
+                _atlasSettings.ImportSettings.GetTextureImporterPlatformSettings(BuildTargetGroup.Android);
+
             atlas.SetTextureSettings(atlasTextureSettings);
             atlas.SetPackingSettings(atlasPackingSettings);
-            atlas.SetPlatformSettings(platformSettings);
             
+            atlas.SetPlatformSettings(platformSettingsDefault);
+            atlas.SetPlatformSettings(platformSettingsStandalone);
+            atlas.SetPlatformSettings(platformSettingsAndroid);
+
             atlas.SetIncludeInBuild(_atlasSettings.IncludeInBuild);
             atlas.SetIsVariant(_atlasSettings.Type == SpriteAtlasType.Variant);
             
