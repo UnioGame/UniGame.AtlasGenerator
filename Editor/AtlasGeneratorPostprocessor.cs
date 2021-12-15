@@ -10,6 +10,10 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
         
         public static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
+            var settings = AtlasGeneratorSettings.Asset;
+            if (settings != null && settings.allowPostProcessing == false)
+                return;
+            
             UniEditorProfiler.LogTime(nameof(AtlasGenerator), () => PackIntoAtlases(importedAssets, movedAssets, movedFromAssetPaths));
         }
         
