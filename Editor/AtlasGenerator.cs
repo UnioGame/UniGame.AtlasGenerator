@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
+using UniModules.Editor;
+using UniModules.UniCore.Runtime.Utils;
 using UniModules.UniGame.GraphicsTools.Editor.SpriteAtlas;
 using UnityEditor;
 using UnityEditor.U2D;
@@ -110,7 +112,23 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 
         public static bool TryGetAtlas(string pathToAtlas, out SpriteAtlas atlas)
         {
-            return ((atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas)) != null);
+            atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas);
+            if (atlas == null)
+            {
+                var fullPath = pathToAtlas.ToAbsoluteProjectPath();
+                var fileExists = File.Exists(fullPath);
+                if (fileExists)
+                {
+                    Debug.LogError("File exists but AssetDatabase doesn't load it");
+                    AssetDatabase.Refresh();
+                    atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas);
+                    if (atlas != null)
+                    {
+                        Debug.LogError("AssetDatabase loaded the file after refresh");
+                    }
+                }
+            }
+            return atlas != null;
         }
     }
 }
