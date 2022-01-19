@@ -39,7 +39,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
 
             var appliedSettings = rule.applyCustomSettings ? rule.atlasSettings : atlasSettings.defaultAtlasSettings;
 
-            if (!TryGetAtlas(pathToAtlas, out atlas))
+            if (!AssetEditorTools.TryGetAsset<SpriteAtlas>(pathToAtlas, out atlas))
             {
                 atlas = CreateAtlas(pathToAtlas, appliedSettings);
                 newAtlas = true;
@@ -88,7 +88,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
         {
             var pathToAtlas = rule.ParseAtlasReplacement(movedFromAssetPath == null ? assetPath : movedFromAssetPath);
             pathToAtlas = rule.GetFullPathToAtlas(pathToAtlas);
-            if (!TryGetAtlas(pathToAtlas, out var atlas))
+            if (!AssetEditorTools.TryGetAsset<SpriteAtlas>(pathToAtlas, out var atlas))
             {
                 Log(LogType.Warning, $"Failed to find atlas {rule.pathToAtlas} when removing {assetPath} from it");
                 return false;
@@ -109,26 +109,6 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             AssetDatabase.DeleteAsset(path);
             return true;
         }
-
-        public static bool TryGetAtlas(string pathToAtlas, out SpriteAtlas atlas)
-        {
-            atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas);
-            if (atlas == null)
-            {
-                var fullPath = pathToAtlas.ToAbsoluteProjectPath();
-                var fileExists = File.Exists(fullPath);
-                if (fileExists)
-                {
-                    Debug.LogError("File exists but AssetDatabase doesn't load it");
-                    AssetDatabase.Refresh();
-                    atlas = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(pathToAtlas);
-                    if (atlas != null)
-                    {
-                        Debug.LogError("AssetDatabase loaded the file after refresh");
-                    }
-                }
-            }
-            return atlas != null;
-        }
+        
     }
 }
