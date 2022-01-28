@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using UniModules.UniGame.AddressableTools.Editor.AddressableSpriteAtlasManager;
+using UniModules.UniGame.CoreModules.UniGame.AddressableTools.Editor.AddressableSpriteAtlasManager;
 using UnityEditor;
 using UnityEngine;
 
