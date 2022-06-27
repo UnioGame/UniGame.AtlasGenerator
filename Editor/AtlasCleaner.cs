@@ -40,6 +40,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
                     AtlasGeneratorCommands.RemoveSpriteFromAtlas(asset);
                 }
             }
+            
         }
     }
 }

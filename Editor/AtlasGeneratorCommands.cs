@@ -109,7 +109,6 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             if (!dirty) return;
             
             AtlasGenerator.RemoveFromAtlas(matchedRule, null, assetPath);
-            AssetDatabase.SaveAssets();
         }
     }
 }
