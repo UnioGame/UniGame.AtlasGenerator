@@ -64,7 +64,9 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
             AtlasSettingsApplicationMode.ApplyOnAtlasCreationOnly;
 
         [Tooltip("Settings that will be applied to the atlas. Leave none to use the default settings.")]
+#if ODIN_INSPECTOR
         [HideLabel, ShowIf("applyCustomSettings")]
+#endif
         public SpriteAtlasSettings atlasSettings = null;
 
         public bool Match(string assetPath)
