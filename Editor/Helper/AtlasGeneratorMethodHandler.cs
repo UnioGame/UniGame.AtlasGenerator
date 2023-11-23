@@ -59,17 +59,13 @@ namespace UniModules.UniGame.AtlasGenerator.Editor.Helper
             {
                 if (method == null)
                 {
-                    Debug.LogWarning(
-                        string.Format("Property <color=brown>{0}</color>.Reason: Member is not a method but has EditorButtonAttribute!",
-                            member.Name));
+                    Debug.LogWarning($"Property <color=brown>{member.Name}</color>.Reason: Member is not a method but has EditorButtonAttribute!");
                     return false;
                 }
 
                 if (method.GetParameters().Length > 0)
                 {
-                    Debug.LogWarning(
-                        string.Format("Method <color=brown>{0}</color>.Reason: Methods with parameters is not supported by EditorButtonAttribute!",
-                            method.Name));
+                    Debug.LogWarning($"Method <color=brown>{method.Name}</color>.Reason: Methods with parameters is not supported by EditorButtonAttribute!");
                     return false;
                 }
 
@@ -90,15 +86,15 @@ namespace UniModules.UniGame.AtlasGenerator.Editor.Helper
             {
                 if (string.IsNullOrEmpty(camelCaseString)) return camelCaseString;
 
-                string camelCase = Regex.Replace(Regex.Replace(camelCaseString, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
-                string firstLetter = camelCase.Substring(0, 1).ToUpper();
+                var camelCase = Regex.Replace(Regex.Replace(camelCaseString, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2");
+                var firstLetter = camelCase.Substring(0, 1).ToUpper();
 
                 if (camelCaseString.Length > 1)
                 {
-                    string rest = camelCase.Substring(1);
-
+                    var rest = camelCase.Substring(1);
                     return firstLetter + rest;
                 }
+                
                 return firstLetter;
             }
         }

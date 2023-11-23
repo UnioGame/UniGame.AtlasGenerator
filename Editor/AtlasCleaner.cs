@@ -14,10 +14,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
     {
         public static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
         {
-            if (!AtlasGeneratorSettings.Asset.allowPostProcessing)
-                return AssetDeleteResult.DidNotDelete;
-            
-            UniEditorProfiler.LogTime(nameof(AtlasCleaner), () => RemoveFromAtlases(assetPath));
+            AtlasGeneratorSettings.Load(x => ProcessOnWillDeleteAsset(x,assetPath,options));
             return AssetDeleteResult.DidNotDelete;
         }
 
@@ -41,6 +38,12 @@ namespace UniModules.UniGame.AtlasGenerator.Editor
                 }
             }
             
+        }
+
+        private static void ProcessOnWillDeleteAsset(AtlasGeneratorSettings settings,string assetPath, RemoveAssetOptions options)
+        {
+            if (!settings.allowPostProcessing) return;
+            UniEditorProfiler.LogTime(nameof(AtlasCleaner), () => RemoveFromAtlases(assetPath));
         }
     }
 }
