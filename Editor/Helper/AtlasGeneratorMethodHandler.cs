@@ -52,6 +52,7 @@ namespace UniModules.UniGame.AtlasGenerator.Editor.Helper
                     var message = string.Format("{0} \nResult of Method '{1}' invocation on object {2}", result, method.Name, target.name);
                     Debug.Log(message, target);
                 }
+                
             }
 
             private static bool IsValidMember(MethodInfo method, MemberInfo member)
